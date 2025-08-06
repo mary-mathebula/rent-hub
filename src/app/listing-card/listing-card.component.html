@@ -1,0 +1,52 @@
+<div class="card mb-3">
+  <div class="card-body">
+    <h5 class="card-title">
+      {{ listing.title }}
+      <button 
+        type="button" 
+        class="btn btn-link p-0 float-end" 
+        (click)="toggleFavorite()" 
+        [title]="isFavorite ? 'Remove from favorites' : 'Add to favorites'">
+        <i class="bi" [ngClass]="{'bi-heart-fill text-danger': isFavorite, 'bi-heart': !isFavorite}"></i>
+      </button>
+    </h5>
+    <p class="card-text">{{ listing.description }}</p>
+    <p class="card-text">{{ listing.amenities }}</p>
+
+    <img *ngIf="listing.imageUrl" [src]="listing.imageUrl" class="img-fluid mb-3 rounded" alt="Listing Image">
+
+    <div class="mt-3">
+      <h6>Comments:</h6>
+      <ul class="list-group mb-2">
+        <li *ngFor="let comment of comments" class="list-group-item">
+          <strong>{{ comment.userEmail }}</strong>: {{ comment.content }}
+          <br />
+          <small class="text-muted">{{ comment.timestamp | date:'short' }}</small>
+        </li>
+      </ul>
+
+      <div class="input-group">
+        <input 
+          type="text" 
+          class="form-control" 
+          placeholder="Add a comment..." 
+          [(ngModel)]="newComment" />
+        <button 
+          class="btn btn-primary" 
+          (click)="addComment()" 
+          [disabled]="!newComment.trim()">
+          Comment
+        </button>
+      </div>
+    </div>
+
+    <!-- Add Go to Favourites button -->
+    <button 
+      *ngIf="showGoToFavourites" 
+      routerLink="/favourites" 
+      class="btn btn-outline-success mt-3 w-100">
+      Go to Favourites
+    </button>
+
+  </div>
+</div>

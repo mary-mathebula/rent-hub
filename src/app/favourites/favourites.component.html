@@ -1,0 +1,13 @@
+<h3 class="mb-4">Your Favourite Listings</h3>
+
+<!-- Show message when no favourites are found -->
+<div *ngIf="favouriteListings.length === 0" class="alert alert-info">
+  <p>You have no favourite listings yet.</p>
+</div>
+
+<!-- Display favourite listings using your listing card component -->
+<div *ngIf="favouriteListings.length > 0">
+  <div *ngFor="let listing of favouriteListings" class="mb-3">
+    <app-listing-card [listing]="listing"></app-listing-card>
+  </div>
+</div>

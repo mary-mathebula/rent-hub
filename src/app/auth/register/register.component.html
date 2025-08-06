@@ -1,0 +1,46 @@
+<h2>Register</h2>
+
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <label>Name</label>
+  <input type="text" formControlName="name" />
+  <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+    Name is required
+  </div>
+
+  <label>Email</label>
+  <input type="email" formControlName="email" />
+  <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+    Valid email is required
+  </div>
+
+  <label>Password</label>
+  <input type="password" formControlName="password" />
+  <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+    Password is required
+  </div>
+
+  <label>Confirm Password</label>
+  <input type="password" formControlName="confirmPassword" />
+  <div *ngIf="registerForm.get('confirmPassword')?.touched && !passwordsMatch()">
+    Passwords must match
+  </div>
+
+  <button type="submit" [disabled]="registerForm.invalid || !passwordsMatch()">Register</button>
+</form>
+
+<div *ngIf="registrationFailed" style="color: red; margin-top: 10px;">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="registrationSuccess" style="color: green; margin-top: 10px;">
+  Registration successful! Redirecting to login...
+</div>
+
+<p>
+  Already have an account? 
+  <button routerLink="/login" type="button">Login</button>
+</p>
+
+<div style="margin-top: 20px;">
+  <button routerLink="/" type="button" class="btn btn-secondary">Home</button>
+</div>

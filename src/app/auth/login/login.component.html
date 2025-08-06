@@ -1,0 +1,32 @@
+<h2>Login</h2>
+
+<form [formGroup]="loginForm" (ngSubmit)="login()">
+  <label>Email</label>
+  <input type="email" formControlName="email" />
+  <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+    Valid email is required
+  </div>
+
+  <label>Password</label>
+  <input type="password" formControlName="password" />
+  <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+    Password is required
+  </div>
+
+  <button type="submit" [disabled]="loginForm.invalid">Login</button>
+  <p>
+    New user? 
+    <button routerLink="/register" class="btn btn-primary" type="button">Register here</button>
+  </p>
+
+
+
+  <div *ngIf="loginError" style="color: red; margin-top: 10px;">
+    Login failed: Incorrect credentials
+  </div>
+
+  <div style="margin-top: 20px;">
+  <button routerLink="/" type="button" class="btn btn-secondary">Home</button>
+</div>
+
+</form>

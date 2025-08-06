@@ -1,0 +1,9 @@
+<!-- Top Navigation Bar -->
+<nav class="d-flex justify-content-end p-3 border-bottom">
+  <!-- <a *ngIf="!userEmail" routerLink="/login" class="btn btn-primary me-2">Login</a>
+  <a *ngIf="!userEmail" routerLink="/register" class="btn btn-secondary me-2">Register</a> -->
+  <button *ngIf="userEmail" (click)="logout()" class="btn btn-outline-danger">Logout</button>
+</nav>
+
+<!-- App Content -->
+<router-outlet></router-outlet>
