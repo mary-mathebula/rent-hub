@@ -1,0 +1,21 @@
+{
+  "builds": [
+    {
+      "src": "Rent-Hub/package.json",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "Rent-Hub/angular.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "Rent-Hub/dist/rent-hub"
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
