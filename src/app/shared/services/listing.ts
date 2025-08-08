@@ -31,6 +31,7 @@ export class ListingService {
     );
     localStorage.setItem(this.storageKey, JSON.stringify(listings));
   }
+  
   getListings(): Listing[] {
   return this.getAll();
 }

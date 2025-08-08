@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
+import { BackButtonComponent } from '../../shared/back-button/back-button.component';
+import { AuthService } from '../../services/auth.services';
 
 interface User {
   name: string;
@@ -13,7 +15,7 @@ interface User {
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, BackButtonComponent, ReactiveFormsModule, RouterModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
@@ -21,7 +23,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   loginError = '';
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private authService:AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -46,6 +48,9 @@ export class LoginComponent implements OnInit {
 
   if (user) {
     localStorage.setItem('loggedInUser', JSON.stringify(user));
+    localStorage.setItem('userEmail', user.email); // ✅ Add this line
+
+    this.authService.login(user);
     this.loginError = '';
     this.router.navigate(['/home']);
   } else {

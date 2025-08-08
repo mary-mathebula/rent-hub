@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
-
+import { BackButtonComponent } from '../../shared/back-button/back-button.component';
 interface User {
   name: string;
   email: string;
@@ -13,7 +13,7 @@ interface User {
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, BackButtonComponent,ReactiveFormsModule, RouterModule],
   templateUrl: './register.component.html',
 })
 export class RegisterComponent {
@@ -26,7 +26,10 @@ export class RegisterComponent {
     this.registerForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
+      password: ['', [
+        Validators.required,
+        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/)
+      ]],
       confirmPassword: ['', Validators.required],
     });
   }

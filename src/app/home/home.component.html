@@ -1,26 +1,36 @@
 
 
-<h1>🏠 Welcome to Rent-Hub!</h1>
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <div>
+    <h1>🏠 Welcome to Rent-Hub!</h1>
+    <p>Where You Can Search For The Apartment Of Your Dreams!!</p>
+  </div>
 
-<p> Where You Can Search For The Apartment Of Your Dreams!!</p>
+  <div>
+    <ng-container *ngIf="userEmail; else guestLinks">
+      <button (click)="logout()" class="btn btn-danger">Logout</button>
+    </ng-container>
 
-<nav>
+    <ng-template #guestLinks>
+      <a routerLink="/login" class="btn btn-primary me-2">Login</a>
+      <a routerLink="/register" class="btn btn-secondary">Register</a>
+    </ng-template>
+  </div>
+</div>
 
-  <a *ngIf="!userEmail" routerLink="/login" class="btn btn-primary me-2">Login</a>
-  <a *ngIf="!userEmail" routerLink="/register" class="btn btn-secondary">Register</a>
-</nav>
+
 
 
 <div class="container mt-4">
   <!-- Navigation Buttons -->
  <div class="d-flex justify-content-between align-items-center mb-4">
-  <h2>Available Listings</h2>
+  <h2>Available Apartment Listings</h2>
   <a *ngIf="isLoggedIn()" routerLink="/create" class="btn btn-primary">Add New Listing</a>
 </div>
 
 
   <div *ngIf="listings.length === 0" class="alert alert-info mt-3">
-    No listings available.
+    No availabale listings.
   </div>
 
   <div class="row">
@@ -30,20 +40,35 @@
 
         <div class="card-body">
           <h5 class="card-title">{{ listing.title }}</h5>
-          <p class="card-text">{{ listing.description }}</p>
+          <p><strong>Apartment / Building:</strong> {{ listing.apartmentSelection }}</p>
+          <p><strong>Property Name:</strong> {{ listing.propertyName }}</p>
+          <p><strong>Shared Property:</strong> {{ listing.isShared === 'yes' ? 'Yes' : 'No' }}</p>
           <p><strong>Location:</strong> {{ listing.location }}</p>
-          <p><strong>Price:</strong> R{{ listing.price }}</p>
-          <p><strong>Amenities:</strong> {{ listing.amenities }}</p>
+          <p><strong>Square Footage:</strong> {{ listing.squareFootage }} sq ft</p>
+          <p><strong>Lease Type:</strong> {{ listing.leaseType | titlecase }}</p>
+          <p><strong>Price:</strong> R{{ listing.price }} <span *ngIf="listing.isNegotiable">(Negotiable)</span></p>
+          <p><strong>Furnished:</strong> {{ listing.furnished ? 'Yes' : 'No' }}</p>
+          <p><strong>Vegetarian Preference:</strong> {{ listing.vegetarianPreferred ? 'Yes' : 'No' }}</p>
+          <p><strong>Amenities:</strong> {{ listing.amenities.join(', ') }}</p>
+          <p><strong>Description:</strong> {{ listing.description }}</p>
+
 
         </div>
 
-        
-        <div class="card-footer d-flex justify-content-between">
+        <button class="btn btn-outline-primary" (click)="goToFavorites()">
+                      Favourites
+        </button>
+
+        <div class="card-body">
+          <button class="btn btn-info me-2" [routerLink]="['/listing', listing.id]">View Details</button>
           <button (click)="toggleFavourite(listing)" class="btn btn-outline-warning btn-sm">
             {{ isFavourite(listing) ? '★ Remove Favourite' : '☆ Add to Favourites' }}
           </button>
         </div>
       </div>
+
+    <app-back-button></app-back-button>
+
     </div>
   </div>
 </div>

@@ -7,13 +7,14 @@ import { AuthService } from '../services/auth.services';
 import { ListingService } from '../shared/services/listing';
 import { Listing } from '../shared/models/listing.models';
 import { Comment } from '../shared/models/comment';
-import { ListingCardComponent } from '../listing-card/listing-card.component';
+import { Location } from '@angular/common';
+import { BackButtonComponent } from '../shared/back-button/back-button.component';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, ListingCardComponent],
+  imports: [CommonModule, BackButtonComponent, ReactiveFormsModule, RouterModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private location: Location,
     private listingService: ListingService
   ) {}
 
@@ -45,6 +47,14 @@ export class HomeComponent implements OnInit {
   isLoggedIn(): boolean {
     return !!localStorage.getItem('loggedInUser');
   }
+  
+  goBack() {
+  if (window.history.length > 1) {
+    this.location.back();
+  } else {
+    this.router.navigate(['/home']);  // fallback route
+  }
+}
 
   logout(): void {
     this.authService.logout();
@@ -75,6 +85,10 @@ export class HomeComponent implements OnInit {
   isFavourite(listing: any): boolean {
     const currentFavourites = JSON.parse(localStorage.getItem('favourites') || '[]');
     return currentFavourites.some((fav: any) => fav.id === listing.id);
+  }
+
+  goToFavorites() {
+  this.router.navigate(['/favourites']);
   }
 
   loadListings(): void {

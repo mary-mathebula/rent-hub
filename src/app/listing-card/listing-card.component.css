@@ -1,0 +1,18 @@
+.card {
+    width: 100;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+img.img-fluid {
+  max-height: 300px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.btn-link {
+  cursor: pointer;
+}

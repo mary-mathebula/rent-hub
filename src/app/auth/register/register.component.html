@@ -1,46 +1,59 @@
-<h2>Register</h2>
+<div class="container">
+  <h2>Register</h2>
 
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <label>Name</label>
-  <input type="text" formControlName="name" />
-  <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
-    Name is required
-  </div>
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name</label>
+    <input type="text" id="name" formControlName="name" />
+    <div class="text-danger" *ngIf="registerForm.get('name')?.touched && registerForm.get('name')?.invalid">
+      Name is required
+    </div>
 
-  <label>Email</label>
-  <input type="email" formControlName="email" />
-  <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-    Valid email is required
-  </div>
+    <label for="email">Email</label>
+    <input type="email" id="email" formControlName="email" />
+    <div class="text-danger" *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid">
+      Valid email is required
+    </div>
 
-  <label>Password</label>
-  <input type="password" formControlName="password" />
-  <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+    <label for="password">Password</label>
+    <input type="password" id="password" formControlName="password" />
+   <div class="text-danger" *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors">
+  <div *ngIf="registerForm.get('password')?.errors?.['required']">
     Password is required
   </div>
-
-  <label>Confirm Password</label>
-  <input type="password" formControlName="confirmPassword" />
-  <div *ngIf="registerForm.get('confirmPassword')?.touched && !passwordsMatch()">
-    Passwords must match
+  <div *ngIf="registerForm.get('password')?.errors?.['minlength']">
+    Password must be at least 8 characters
   </div>
+  <div *ngIf="registerForm.get('password')?.errors?.['pattern']">
+    Password must include uppercase, lowercase, number, and special character
+  </div>
+</div>
 
-  <button type="submit" [disabled]="registerForm.invalid || !passwordsMatch()">Register</button>
+
+    <label for="confirmPassword">Confirm Password</label>
+    <input type="password" id="confirmPassword" formControlName="confirmPassword" />
+    <div class="text-danger" *ngIf="registerForm.get('confirmPassword')?.touched && !passwordsMatch()">
+      Passwords must match
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid || !passwordsMatch()">Register</button>
+
+    <p>
+      Already have an account?
+      <a routerLink="/login">Login here</a>
+    </p>
+
+    <div class="text-danger" *ngIf="registrationFailed">
+      {{ errorMessage }}
+    </div>
+
+    <div style="color: green; margin-top: 10px;" *ngIf="registrationSuccess">
+      Registration successful! Redirecting to login...
+    </div>
+
+    <div style="margin-top: 10px;" class="d-flex justify-content-between">
+  <app-back-button></app-back-button>
+<button routerLink="/" type="button" class="btn btn-secondary">Home</button>
+</div>
 </form>
 
-<div *ngIf="registrationFailed" style="color: red; margin-top: 10px;">
-  {{ errorMessage }}
-</div>
-
-<div *ngIf="registrationSuccess" style="color: green; margin-top: 10px;">
-  Registration successful! Redirecting to login...
-</div>
-
-<p>
-  Already have an account? 
-  <button routerLink="/login" type="button">Login</button>
-</p>
-
-<div style="margin-top: 20px;">
-  <button routerLink="/" type="button" class="btn btn-secondary">Home</button>
 </div>

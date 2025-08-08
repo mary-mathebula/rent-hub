@@ -1,0 +1,20 @@
+<div class="container my-4" *ngIf="listing">
+
+  <h2>{{ listing.title }}</h2>
+  <img *ngIf="listing.imageUrl" [src]="listing.imageUrl" alt="Listing Image" class="img-fluid rounded mb-3" />
+
+  <p><strong>Apartment / Building:</strong> {{ listing.apartmentSelection }}</p>
+  <p><strong>Property Name:</strong> {{ listing.propertyName }}</p>
+  <p><strong>Shared Property:</strong> {{ listing.isShared === 'yes' ? 'Yes' : 'No' }}</p>
+  <p><strong>Location:</strong> {{ listing.location }}</p>
+  <p><strong>Square Footage:</strong> {{ listing.squareFootage }} sq ft</p>
+  <p><strong>Lease Type:</strong> {{ listing.leaseType | titlecase }}</p>
+  <p><strong>Price:</strong> R{{ listing.price }} <span *ngIf="listing.isNegotiable">(Negotiable)</span></p>
+  <p><strong>Furnished:</strong> {{ listing.furnished ? 'Yes' : 'No' }}</p>
+  <p><strong>Vegetarian Preference:</strong> {{ listing.vegetarianPreferred ? 'Yes' : 'No' }}</p>
+  <p><strong>Amenities:</strong> {{ listing.amenities.join(', ') }}</p>
+  <p><strong>Description:</strong> {{ listing.description }}</p>
+  <p><strong>Created By:</strong> {{ listing.createdBy || 'Unknown' }}</p>
+</div>
+
+  <app-back-button></app-back-button>

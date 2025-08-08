@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { BackButtonComponent } from '../../shared/back-button/back-button.component';
+
 
 @Component({
   selector: 'app-create',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, BackButtonComponent ,ReactiveFormsModule],
   templateUrl: './create.component.html',
 })
 export class CreateComponent implements OnInit {
@@ -17,15 +19,23 @@ export class CreateComponent implements OnInit {
   imageBase64: string= '';
 
   constructor(private fb: FormBuilder, private router: Router) {
-    this.form = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(3)]],
-      description: ['', [Validators.required, Validators.minLength(10)]],
-      price: ['', [Validators.required, Validators.min(1)]],
-      location: ['', Validators.required],
-      furnished: [false],
-      vegetarianPreferred: [false]
-    });
-  }
+  this.form = this.fb.group({
+    apartmentSelection: ['', Validators.required],
+    propertyName: ['', Validators.required],
+    isShared: ['', Validators.required],
+    squareFootage: ['', [Validators.required, Validators.min(1)]],
+    leaseType: ['', Validators.required],
+    isNegotiable: [false],
+    priceMode: ['', Validators.required],
+
+    description: ['', [Validators.required, Validators.minLength(10)]],
+    price: ['', [Validators.required, Validators.min(1)]],
+    location: ['', Validators.required],
+    furnished: [false],
+    vegetarianPreferred: [false]
+  });
+}
+
 
   ngOnInit(): void {
     const userJson = localStorage.getItem('loggedInUser');

@@ -18,6 +18,6 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('loggedInUser');  // Clear logged in user
-  }
+  localStorage.removeItem('userEmail');
+    localStorage.removeItem('loggedInUser');  }
 }

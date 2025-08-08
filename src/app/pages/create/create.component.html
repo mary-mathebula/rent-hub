@@ -1,48 +1,93 @@
-<div class="container my-5">
+<div class="custom-container my-5">
   <div class="row justify-content-center">
-    <div class="col-md-8 col-lg-6">
+    <div class="col-md-12 col-lg-8">
       <div class="card shadow rounded-4">
         <div class="card-body p-4">
-          <h3 class="text-center mb-4">Create a Listing</h3>
+          <h3 class="text-center mb-4">Create an Apartment Listing</h3>
 
           <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-            <!-- Title -->
+            <!-- 🏢 Choose Apartment / Building -->
             <div class="mb-3">
-              <label class="form-label">Title</label>
-              <input type="text" formControlName="title" class="form-control" />
-              <div *ngIf="form.get('title')?.touched && form.get('title')?.invalid" class="text-danger small mt-1">
-                Title is required.
+              <label class="form-label">Choose Your Apartment / Building</label>
+              <select class="form-select" formControlName="apartmentSelection">
+                <option value="" disabled selected>Select an option</option>
+                <option *ngFor="let apt of ['Building A', 'Building B', 'Building C']" [value]="apt">{{ apt }}</option>
+              </select>
+            </div>
+
+            <!-- Property Name -->
+            <div class="mb-3">
+              <label class="form-label">Property Name</label>
+              <input type="text" formControlName="propertyName" class="form-control" />
+            </div>
+
+            <!-- 👥 Shared Property -->
+            <div class="mb-3">
+              <label class="form-label">Is This a Shared Property?</label>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="isShared" value="yes" id="sharedYes" />
+                <label class="form-check-label" for="sharedYes">Yes</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" formControlName="isShared" value="no" id="sharedNo" />
+                <label class="form-check-label" for="sharedNo">No</label>
               </div>
             </div>
 
-            <!-- Description -->
+            <!-- 📍 Location -->
             <div class="mb-3">
-              <label class="form-label">Description</label>
-              <textarea rows="3" formControlName="description" class="form-control"></textarea>
+              <label class="form-label">Street Address</label>
+              <input type="text" formControlName="location" class="form-control" />
             </div>
 
-            <!-- Price -->
+            <!-- 📐 Square Footage -->
+            <div class="mb-3">
+              <label class="form-label">Square Footage (sq ft)</label>
+              <input type="number" formControlName="squareFootage" class="form-control" />
+            </div>
+
+            <!-- Lease Type -->
+            <div class="mb-3">
+              <label class="form-label">Lease Type</label>
+              <select class="form-select" formControlName="leaseType">
+                <option value="" disabled selected>Select lease type</option>
+                <option value="long">Long term (6+ months)</option>
+                <option value="short">Short term</option>
+                <option value="both">Both</option>
+              </select>
+            </div>
+
+            <!-- 💰 Expected Rent -->
             <div class="mb-3">
               <label class="form-label">Price (ZAR)</label>
               <input type="number" formControlName="price" class="form-control" />
             </div>
 
-            <!-- Location -->
-            <div class="mb-3">
-              <label class="form-label">Location</label>
-              <input type="text" formControlName="location" class="form-control" />
+            <!-- Negotiable Checkbox -->
+            <div class="form-check mb-3">
+              <input class="form-check-input" type="checkbox" formControlName="isNegotiable" id="negotiable" />
+              <label class="form-check-label" for="negotiable">Negotiable</label>
             </div>
 
-            <!-- Furnished Checkbox -->
+            <!-- Price Mode -->
+            <div class="mb-3">
+              <label class="form-label">Price Mode</label>
+              <select class="form-select" formControlName="priceMode">
+                <option value="perMonth">Per Month</option>
+                <option value="utilitiesIncluded">Utilities Included</option>
+              </select>
+            </div>
+
+            <!-- 🛋️ Furnished -->
             <div class="form-check mb-3">
               <input class="form-check-input" type="checkbox" formControlName="furnished" id="furnished" />
               <label class="form-check-label" for="furnished">Furnished</label>
             </div>
 
-            <!-- Amenities -->
+            <!-- 🛠️ Amenities -->
             <div class="mb-3">
-              <label class="form-label">Amenities</label>
+              <label class="form-label">Amenities Included</label>
               <div class="row">
                 <div class="col-6" *ngFor="let amenity of availableAmenities">
                   <div class="form-check">
@@ -54,7 +99,7 @@
               </div>
             </div>
 
-            <!-- Vegetarian Preference -->
+            <!-- 👩‍🌾 Vegetarian -->
             <div class="mb-3">
               <label class="form-label">Vegetarian Preference</label>
               <div class="form-check">
@@ -66,9 +111,15 @@
                 <label class="form-check-label" for="vegNo">No</label>
               </div>
             </div>
-            
-           <!-- Image Upload -->
-          <div class="mb-3">
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label class="form-label">Property Description</label>
+              <textarea rows="3" formControlName="description" class="form-control"></textarea>
+            </div>
+  
+            <!-- 📷 Image Upload -->
+            <div class="mb-3">
               <label for="image" class="form-label">Upload Image</label>
               <input 
                 type="file" 
@@ -76,24 +127,24 @@
                 class="form-control" 
                 (change)="onImageSelected($event)" 
                 accept="image/*">
-          </div>
+            </div>
 
-          <!-- Optional: Image Preview -->
-          <div *ngIf="imageBase64" class="mb-3">
-            <p>Image Preview:</p>
-            <img [src]="imageBase64" alt="Preview" class="img-fluid rounded" />
-          </div>
+            <!-- Optional: Image Preview -->
+            <div *ngIf="imageBase64" class="mb-3">
+              <p>Image Preview:</p>
+              <img [src]="imageBase64" alt="Preview" class="img-fluid rounded" />
+            </div>
 
-
-
-            <!-- Submit Button -->
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary px-4" >Submit Listing</button>
+            <!-- Submit -->
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-primary px-4">Submit Listing</button>
             </div>
 
           </form>
         </div>
       </div>
     </div>
+
+    <app-back-button></app-back-button>
   </div>
 </div>

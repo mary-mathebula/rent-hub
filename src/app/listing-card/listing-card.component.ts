@@ -43,6 +43,11 @@ export class ListingCardComponent implements OnInit {
   addComment() {
     if (!this.newComment.trim()) return;
 
+    if (this.isOwner()) {
+    alert("You cannot comment on your own listing.");
+    return;
+  }
+
      const loggedInUser = localStorage.getItem('loggedInUser');
      const userEmail = loggedInUser ? JSON.parse(loggedInUser).email : '';
 
@@ -73,5 +78,12 @@ export class ListingCardComponent implements OnInit {
   localStorage.setItem('favourites', JSON.stringify(favorites));
   this.isFavorite = !this.isFavorite;
 }
+
+isOwner(): boolean {
+  const loggedInUser = localStorage.getItem('loggedInUser');
+  const userEmail = loggedInUser ? JSON.parse(loggedInUser).email : '';
+  return this.listing.createdBy === userEmail;
+}
+
 
 }
